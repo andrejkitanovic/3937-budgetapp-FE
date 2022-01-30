@@ -1,0 +1,92 @@
+<div class="bg-indigo-50 h-screen flex">
+  <app-loading *ngIf="loading"></app-loading>
+  <app-sidebar></app-sidebar>
+
+  <div
+    class="bg-red-200 border-2 max-w-md border-red-700 py-4 px-8 transition-all absolute top-9 text-center rounded-lg left-1/2 transform -translate-x-1/2 {{
+      error ? 'translate-y-9' : '-translate-y-40'
+    }}"
+  >
+    <h1 class="text-2xl">Error</h1>
+    <p class="text-lg">{{ error }}</p>
+  </div>
+
+  <div class="p-20 w-full">
+    <div class="flex">
+      <div class="pr-5">
+        <div class="bg-white p-4 rounded-md">
+          <h2 class="text-xl w-64 text-blue-600 font-bold">Total</h2>
+          <div class="h1 text-3xl text-blue-600 font-bold">=${{ total }}</div>
+        </div>
+        <div class="bg-white p-4 rounded-md mt-5">
+          <h2 class="text-xl w-64 text-lime-600 font-bold">Income</h2>
+
+          <div class="h1 text-3xl text-lime-600 font-bold">+${{ income }}</div>
+        </div>
+        <div class="bg-white p-4 rounded-md mt-5">
+          <h2 class="text-xl w-64 text-red-600 font-bold">Expenses</h2>
+          <div class="flex justify-between items-center">
+            <div class="h1 text-3xl text-red-600 font-bold">
+              -${{ expenses }}
+            </div>
+            <div
+              class="px-2 py-1 bg-red-600 h-full text-indigo-100 rounded-sm font-bold text-sm"
+            >
+              {{ expensesPercent }}%
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="w-full">
+        <div class="bg-white p-4 w-full rounded-md flex">
+          <select
+            class="bg-indigo-50 px-4 mr-2 pt-2 pb-3 text-xl outline-none rounded-md w-32"
+            (change)="handleTypeChange($event)"
+          >
+            <option value="income">+</option>
+            <option value="expense">-</option>
+          </select>
+          <input
+            class="bg-indigo-50 px-4 mr-2 py-2 outline-none rounded-md w-full border-2 {{
+              financeType === 'income' ? 'border-lime-600' : 'border-red-600'
+            }}"
+            type="number"
+            placeholder="Amount"
+            #amount
+          />
+          <input
+            class="bg-indigo-50 px-4 mr-2 py-2 outline-none rounded-md w-full"
+            type="text"
+            placeholder="Description"
+            #description
+          />
+          <button
+            class="min-w-32 w-32 bg-gradient-to-tr from-blue-600 to-indigo-600 text-indigo-100 py-2 rounded-md text-sm tracking-wide transition-all hover:opacity-75"
+            (click)="handleFinanceCreate(amount, description)"
+          >
+            Add
+          </button>
+        </div>
+        <div class="my-4">
+          <div class="bg-white p-4 w-full rounded-md flex mb-3">
+            <input
+              class="bg-indigo-50 px-4 mr-2 py-2 outline-none rounded-md w-full"
+              type="text"
+              placeholder="Search finances"
+              [(ngModel)]="filterText"
+            />
+          </div>
+          <div class="text-lg mb-3">Finance list</div>
+          <app-single-finance
+            *ngFor="
+              let financeItem of financesList | filterPipe: filterText;
+              index as i
+            "
+            [finance]="financeItem"
+          >
+          </app-single-finance>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

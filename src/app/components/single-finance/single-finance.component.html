@@ -1,0 +1,56 @@
+<div
+  class="bg-white w-full rounded-md mb-3 overflow-hidden transition-all {{
+    updateFormActive ? 'max-h-44' : 'max-h-20'
+  }}"
+>
+  <div
+    class="flex items-center p-5 justify-between {{
+      finance.type === 'income' ? 'text-lime-600' : 'text-red-600'
+    }}"
+  >
+    <div class="text-lg font-bold">
+      {{ finance.description }}
+    </div>
+    <div class="flex items-center">
+      <div class="text-lg font-bold">${{ finance.amount }}</div>
+      <div class="flex items-center ml-6">
+        <button
+          class="px-4 py-2 bg-blue-400 rounded-md text-white mr-2 w-24 transition-all hover:opacity-75"
+          (click)="toggleForm()"
+        >
+          {{ updateFormActive ? "Close" : "Update" }}
+        </button>
+        <button
+          class="px-4 py-2 bg-red-600 rounded-md text-white transition-all hover:opacity-75"
+          (click)="handleDelete()"
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="flex p-4 pt-2 items-center justify-between">
+    <input
+      class="bg-indigo-50 px-4 mr-2 py-2 outline-none rounded-md w-full"
+      type="text"
+      value="{{ finance.description }}"
+      placeholder="Description"
+      #description
+    />
+    <input
+      class="bg-indigo-50 px-4 mr-2 py-2 outline-none rounded-md w-full border-2 {{
+        finance.type === 'income' ? 'border-lime-600' : 'border-red-600'
+      }}"
+      type="number"
+      value="{{ finance.amount }}"
+      placeholder="Amount"
+      #amount
+    />
+    <button
+      class="min-w-32 w-44 bg-gradient-to-tr from-blue-600 to-indigo-600 text-indigo-100 py-2 rounded-md text-sm tracking-wide transition-all hover:opacity-75"
+      (click)="handleUpdate(amount, description)"
+    >
+      Update
+    </button>
+  </div>
+</div>

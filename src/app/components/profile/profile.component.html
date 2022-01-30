@@ -1,0 +1,82 @@
+<div class="bg-indigo-50 h-screen flex">
+  <app-loading *ngIf="loading"></app-loading>
+  <app-sidebar [account]="user"></app-sidebar>
+
+  <div
+    class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-60"
+    *ngIf="deleteModalActive"
+  >
+    <div class="bg-white p-4 rounded-md">
+      <div class="text-xl font-semibold text-center mb-3">
+        Are you sure you want to delete your profile
+      </div>
+      <p class="text-sm text-gray-600 text-center">There is no coming back</p>
+
+      <div class="flex mt-12 items-center justify-between">
+        <button
+          class="px-6 py-2 bg-gray-100 rounded-md border border-gray-700 text-black transition-all hover:opacity-75"
+          (click)="toggleDeleteModal()"
+        >
+          No
+        </button>
+        <button
+          class="px-6 py-2 bg-red-600 rounded-md text-white transition-all hover:opacity-75"
+          (click)="handleProfileDelete()"
+        >
+          Yes
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="p-20 mx-auto" style="width: 600px">
+    <div class="flex items-center justify-between mb-3">
+      <div class="text-3xl font-bold mb-5">My profile</div>
+      <button
+        class="px-4 py-2 bg-red-600 rounded-md text-white transition-all hover:opacity-75"
+        (click)="toggleDeleteModal()"
+      >
+        Delete account
+      </button>
+    </div>
+    <div class="bg-white p-4 rounded-md">
+      <div class="text-lg font-semibold text-center mb-5">
+        Update your profile here
+      </div>
+      <div>
+        <label for="username" class="block mb-1 text-gray-600 font-semibold"
+          >Username</label
+        >
+        <input
+          type="text"
+          class="bg-indigo-50 px-4 py-2 outline-none rounded-md w-full"
+          aria-label="Username"
+          value="{{ user.username }}"
+          #username
+        />
+      </div>
+      <div class="mt-5">
+        <label for="email" class="block mb-1 text-gray-600 font-semibold"
+          >E-mail</label
+        >
+        <input
+          type="email"
+          class="bg-indigo-50 px-4 py-2 outline-none rounded-md w-full"
+          aria-label="Email"
+          value="{{ user.email }}"
+          #email
+        />
+      </div>
+
+      <button
+        class="mt-4 w-full bg-gradient-to-tr from-blue-600 to-indigo-600 text-indigo-100 py-2 rounded-md text-lg tracking-wide transition-all hover:opacity-75"
+        (click)="handleProfileUpdate(username.value, email.value)"
+      >
+        Update
+      </button>
+      <div class="text-red-500 mt-3" *ngIf="error">
+        {{ error }}
+      </div>
+    </div>
+  </div>
+</div>
